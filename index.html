@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Abhiram Thallapelly — Web Developer</title>
+  <meta name="description" content="Portfolio of Abhiram Thallapelly — Full-stack web developer (MERN). Projects, skills and contact." />
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+  <style>
+    /* ========== CSS Reset (small) ========== */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;line-height:1.45;color:var(--text);background:var(--bg)}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    button{font:inherit}
+
+    /* ========== Theme variables ========== */
+    :root{
+      --accent:#0f172a;
+      --accent-2:#0ea5a4;
+      --muted:#6b7280;
+      --bg:#f8fafc;
+      --card:#ffffff;
+      --text:#0b1221;
+      --glass: rgba(255,255,255,0.6);
+      --radius:14px;
+      --shadow: 0 6px 18px rgba(9,10,15,0.06);
+    }
+    :root[data-theme="dark"]{
+      --accent:#e6eef3;
+      --accent-2:#34d399;
+      --muted:#9ca3af;
+      --bg:#071025;
+      --card:#071828;
+      --text:#e6eef3;
+      --glass: rgba(5,8,12,0.46);
+      --shadow: 0 10px 30px rgba(2,6,23,0.6);
+    }
+
+    /* ========== Layout ========== */
+    .wrap{max-width:1100px;margin:0 auto;padding:28px}
+    header{position:sticky;top:12px;z-index:60;background:linear-gradient(180deg,transparent,rgba(0,0,0,0.02));backdrop-filter: blur(4px);border-radius:12px;padding:10px}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+    .brand{display:flex;align-items:center;gap:.85rem}
+    .logo{
+      width:44px;height:44px;border-radius:10px;
+      display:grid;place-items:center;
+      font-weight:700;color:var(--card);background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      box-shadow:var(--shadow);
+    }
+    nav ul{display:flex;gap:.5rem;align-items:center;margin:0;padding:0;list-style:none}
+    nav a{padding:.5rem .8rem;border-radius:999px;color:var(--muted);font-weight:600;font-size:0.95rem}
+    nav a.active, nav a:hover{background:var(--card);color:var(--text);box-shadow:var(--shadow)}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr;gap:20px;align-items:center;padding:34px 0}
+    .hero-grid{display:grid;grid-template-columns:1fr;gap:24px}
+    .headline{font-size:clamp(1.9rem,4vw,2.6rem);line-height:1.02;font-weight:800;margin:0}
+    .sub{color:var(--muted);margin-top:8px;font-size:1.02rem}
+    .cta-row{display:flex;gap:12px;margin-top:16px}
+    .btn{padding:10px 16px;border-radius:999px;background:var(--accent);color:var(--card);font-weight:700;box-shadow:var(--shadow);border:none;cursor:pointer}
+    .btn.secondary{background:transparent;border:1px solid rgba(0,0,0,0.06);color:var(--text);font-weight:600}
+    .hero-card{background:linear-gradient(180deg,rgba(255,255,255,0.6),transparent);padding:18px;border-radius:14px;box-shadow:var(--shadow)}
+
+    /* Two-column content */
+    .grid-two{display:grid;grid-template-columns:1fr;gap:18px;margin-top:26px}
+    @media(min-width:880px){
+      .hero-grid{grid-template-columns:1fr 360px;align-items:center}
+      .grid-two{grid-template-columns:1fr 360px}
+    }
+
+    /* Cards */
+    .card{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);overflow:hidden}
+    .project-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:16px}
+    @media(min-width:720px){.project-grid{grid-template-columns:repeat(2,1fr)}}
+    .project{
+      display:flex;flex-direction:column;gap:10px;border-radius:12px;overflow:hidden;transition:transform .22s ease, box-shadow .22s ease;
+    }
+    .project:hover{transform:translateY(-6px)}
+    .project-thumb{height:160px;border-radius:10px;background:linear-gradient(135deg,var(--accent-2),#60a5fa);display:grid;place-items:center;color:white;font-weight:700}
+    .tags{display:flex;gap:8px;flex-wrap:wrap}
+    .tag{font-size:.78rem;padding:6px 10px;background:rgba(0,0,0,0.04);border-radius:999px;color:var(--muted)}
+
+    /* Skills / About */
+    .skill-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+    .skill{padding:8px 12px;border-radius:999px;background:linear-gradient(90deg,rgba(0,0,0,0.03),transparent);font-weight:600}
+
+    /* Contact */
+    .contact-grid{display:grid;grid-template-columns:1fr;gap:12px}
+    @media(min-width:880px){.contact-grid{grid-template-columns:1fr 320px}}
+    .contact-form{display:flex;flex-direction:column;gap:10px}
+    input,textarea{padding:10px;border-radius:8px;border:1px solid rgba(9,10,15,0.06);background:transparent;color:var(--text);resize:vertical}
+    .small{font-size:.9rem;color:var(--muted)}
+
+    /* Footer */
+    footer{margin-top:36px;padding:28px 0;text-align:center;color:var(--muted)}
+
+    /* theme toggle */
+    .theme-toggle{display:inline-flex;align-items:center;gap:8px;padding:8px;border-radius:999px;background:var(--card);box-shadow:var(--shadow);cursor:pointer}
+
+    /* Utilities */
+    .muted{color:var(--muted)}
+    .center{display:grid;place-items:center}
+    .sr-only{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+
+    /* micro animations */
+    .fade-in{animation:fadeIn .7s ease both}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  </style>
+</head>
+<body data-theme="light">
+  <div class="wrap">
+    <header aria-label="Main header">
+      <div class="nav-inner">
+        <div class="brand" title="Abhiram Thallapelly">
+          <div class="logo" aria-hidden="true">AT</div>
+          <div>
+            <div style="font-weight:800">Abhiram Thallapelly</div>
+            <div class="muted" style="font-size:.87rem">Full-stack Web Developer (MERN)</div>
+          </div>
+        </div>
+
+        <nav aria-label="Primary">
+          <ul id="navlinks">
+            <li><a href="#home" class="nav-link active">Home</a></li>
+            <li><a href="#projects" class="nav-link">Projects</a></li>
+            <li><a href="#skills" class="nav-link">Skills</a></li>
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+            <li>
+              <button id="themeToggle" class="theme-toggle" aria-pressed="false" title="Toggle theme">
+                <span id="themeIcon">🌙</span>
+                <span class="sr-only">Toggle theme</span>
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <main>
+      <section id="home" class="hero">
+        <div class="hero-grid">
+          <div class="fade-in">
+            <h1 class="headline">Hi — I’m <span style="color:var(--accent-2)">Abhiram</span>. I build fast, accessible web apps.</h1>
+            <p class="sub">Full-stack developer focused on MERN, performance, and product-driven user experiences. I design, build, and ship production applications that people use.</p>
+
+            <div class="cta-row">
+              <a class="btn" href="#contact">Hire Me</a>
+              <a class="btn secondary" href="/mnt/data/Abhiram_Thallapelly_Web_Developer_Resume.pdf" download aria-label="Download resume">
+                ⤓ Download Résumé
+              </a>
+            </div>
+
+            <div class="muted" style="margin-top:14px">Location: Gandi Maisamma, Hyderabad • Phone: <a href="tel:+919154460535">9154460535</a></div>
+          </div>
+
+          <aside class="hero-card fade-in" aria-label="Quick info">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+              <div>
+                <div style="font-weight:800">Skills Snapshot</div>
+                <div class="muted small">MERN • JS (ES6+) • React • Node • MongoDB • APIs</div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-weight:800;font-size:1.15rem">Available for hire</div>
+                <div class="muted small" style="margin-top:6px">Freelance / Full-time</div>
+              </div>
+            </div>
+
+            <div style="margin-top:12px">
+              <div style="font-weight:700;margin-bottom:8px">Follow</div>
+              <div style="display:flex;gap:10px">
+                <a class="muted" href="https://github.com/abhiramthallapelly" target="_blank" rel="noreferrer">GitHub →</a>
+                <a class="muted" href="https://www.linkedin.com/in/abhiram-thallapelly-240224338" target="_blank" rel="noreferrer">LinkedIn →</a>
+                <a class="muted" href="mailto:abhiramthallapelli95@gmail.com">Email →</a>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <!-- quick projects / highlights -->
+        <div class="grid-two">
+          <div>
+            <div class="card">
+              <h3 style="margin:0 0 8px 0">Selected Projects</h3>
+              <p class="muted small">A few highlights demonstrating full-stack abilities and product focus.</p>
+
+              <div class="project-grid" style="margin-top:12px">
+                <!-- Project 1 -->
+                <article class="project card" aria-labelledby="p1">
+                  <div class="project-thumb" role="img" aria-label="EmergencyCare app screenshot">
+                    EmergencyCare
+                  </div>
+                  <div>
+                    <h4 id="p1" style="margin:0">EmergencyCare — Community Response</h4>
+                    <p class="muted small" style="margin-top:6px">Real-time platform to connect users with nearby registered doctors and domain experts during urgent situations. Maps, chat, secure auth.</p>
+                    <div class="tags" style="margin-top:8px">
+                      <span class="tag">React</span><span class="tag">Node.js</span><span class="tag">MongoDB</span><span class="tag">Maps</span>
+                    </div>
+                    <div style="margin-top:10px;display:flex;gap:10px">
+                      <a class="small muted" href="#" aria-disabled="true">Live →</a>
+                      <a class="small muted" href="#" aria-disabled="true">Code →</a>
+                    </div>
+                  </div>
+                </article>
+
+                <!-- Project 2 -->
+                <article class="project card" aria-labelledby="p2">
+                  <div class="project-thumb" role="img" aria-label="E-commerce app screenshot" style="background:linear-gradient(135deg,#ef4444,#fb923c)">
+                    E-Commerce (MERN)
+                  </div>
+                  <div>
+                    <h4 id="p2" style="margin:0">Full-Stack E-Commerce</h4>
+                    <p class="muted small" style="margin-top:6px">Feature-rich store with auth, cart, checkout integration and admin panel for product management.</p>
+                    <div class="tags" style="margin-top:8px">
+                      <span class="tag">Express</span><span class="tag">Stripe</span><span class="tag">React</span>
+                    </div>
+                    <div style="margin-top:10px;display:flex;gap:10px">
+                      <a class="small muted" href="#" aria-disabled="true">Live →</a>
+                      <a class="small muted" href="#" aria-disabled="true">Code →</a>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="card">
+              <h3 style="margin:0">Quick facts</h3>
+              <ul style="margin-top:12px;padding-left:18px;color:var(--muted);">
+                <li><strong>Education:</strong> B.Tech (CSE) — MLR Institute</li>
+                <li><strong>Tools:</strong> Git, VS Code, Postman, Docker (basic)</li>
+                <li><strong>Availability:</strong> Open to freelance & full-time</li>
+                <li><strong>Languages:</strong> English, Telugu</li>
+              </ul>
+              <div style="margin-top:12px;display:flex;gap:8px">
+                <a class="btn" href="mailto:abhiramthallapelli95@gmail.com">Email Me</a>
+                <a class="btn secondary" href="/mnt/data/Abhiram_Thallapelly_Web_Developer_Resume.pdf" download>Download Résumé</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+      <section id="skills" style="margin-top:28px">
+        <h2 style="margin:0 0 8px 0">Skills & Tools</h2>
+        <p class="muted small">Technologies I use to build products.</p>
+
+        <div class="card" style="margin-top:12px">
+          <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+            <div style="flex:1">
+              <h3 style="margin:0 0 8px 0">Core</h3>
+              <div class="skill-list">
+                <span class="skill">HTML5</span>
+                <span class="skill">CSS3</span>
+                <span class="skill">JavaScript (ES6+)</span>
+                <span class="skill">React</span>
+                <span class="skill">Node.js</span>
+                <span class="skill">Express</span>
+                <span class="skill">MongoDB</span>
+              </div>
+            </div>
+
+            <div style="width:260px">
+              <h4 style="margin:0 0 8px 0">Dev tools</h4>
+              <div class="small muted">Git • VS Code • Postman • Chrome DevTools • Netlify / Vercel / Heroku</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about" style="margin-top:28px">
+        <h2 style="margin:0 0 8px 0">About</h2>
+        <p class="muted small">A bit more about my approach.</p>
+
+        <div class="card" style="margin-top:12px">
+          <p>I enjoy taking ideas from concept to deployed product. My focus is on building performant, accessible web apps with clean code and thoughtful UX. Outside of coding I create short-form video edits and improve developer workflows.</p>
+
+          <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+            <div style="flex:1">
+              <h4 style="margin:0 0 6px 0">Work</h4>
+              <p class="muted small" style="margin:0">Experience building full-stack applications, integrating third-party APIs, and working end-to-end on product features.</p>
+            </div>
+            <div style="width:240px">
+              <h4 style="margin:0 0 6px 0">Interests</h4>
+              <p class="muted small" style="margin:0">Web performance, UX, short-form video editing, automation.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" style="margin-top:28px;margin-bottom:6px">
+        <h2 style="margin:0 0 8px 0">Contact</h2>
+        <p class="muted small">Want to collaborate? Send a message — or use the quick contact details.</p>
+
+        <div class="contact-grid" style="margin-top:12px">
+          <form class="card contact-form" onsubmit="return handleContact(event)" aria-label="Contact form">
+            <label class="small">Your name
+              <input id="name" type="text" placeholder="Your name" required />
+            </label>
+
+            <label class="small">Your email
+              <input id="email" type="email" placeholder="you@example.com" required />
+            </label>
+
+            <label class="small">Message
+              <textarea id="message" rows="5" placeholder="Briefly describe the project or idea" required></textarea>
+            </label>
+
+            <div style="display:flex;gap:10px;align-items:center">
+              <button class="btn" type="submit">Send message</button>
+              <div class="small muted">Or email: <a href="mailto:abhiramthallapelli95@gmail.com">abhiramthallapelli95@gmail.com</a></div>
+            </div>
+
+            <div id="formMsg" class="muted small" role="status" style="margin-top:8px"></div>
+          </form>
+
+          <aside class="card">
+            <h3 style="margin:0 0 8px 0">Quick contact</h3>
+            <p class="muted small">Email: <a href="mailto:abhiramthallapelli95@gmail.com">abhiramthallapelli95@gmail.com</a></p>
+            <p class="muted small">Phone: <a href="tel:+919154460535">9154460535</a></p>
+            <p class="muted small">Location: Gandi Maisamma, Hyderabad, Telangana</p>
+
+            <div style="margin-top:12px">
+              <h4 style="margin:0 0 8px 0">Résumé</h4>
+              <a class="btn" href="/mnt/data/Abhiram_Thallapelly_Web_Developer_Resume.pdf" download>Download Résumé</a>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <footer role="contentinfo">
+        <div class="muted">© <span id="curYear"></span> Abhiram Thallapelly • Built with HTML, CSS & JS</div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // ========== Small helpers ==========
+    document.getElementById('curYear').textContent = new Date().getFullYear();
+
+    // Smooth scroll and nav highlight
+    const navLinks = Array.from(document.querySelectorAll('.nav-link'));
+    navLinks.forEach(a => a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const id = a.getAttribute('href').slice(1);
+      document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
+      setActive(a);
+    }));
+
+    function setActive(link){
+      navLinks.forEach(l=>l.classList.remove('active'));
+      link.classList.add('active');
+    }
+
+    // Update active on scroll
+    const sections = ['home','projects','skills','about','contact'].map(id => document.getElementById(id));
+    window.addEventListener('scroll', throttle(()=> {
+      const fromTop = window.scrollY + 120;
+      let current = sections[0];
+      for (const sec of sections){
+        if (sec.offsetTop <= fromTop) current = sec;
+      }
+      const activeLink = document.querySelector(`a[href="#${current.id}"]`);
+      if (activeLink) setActive(activeLink);
+    }, 150));
+
+    // throttle utility
+    function throttle(fn, wait){
+      let time = Date.now();
+      return function(...args){
+        if ((time + wait - Date.now()) < 0){
+          fn.apply(this,args);
+          time = Date.now();
+        }
+      }
+    }
+
+    // Theme toggle - preserves preference in localStorage
+    const body = document.body;
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const stored = localStorage.getItem('theme');
+    if (stored) body.setAttribute('data-theme', stored);
+    updateThemeUI();
+
+    themeToggle.addEventListener('click', ()=>{
+      const cur = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      body.setAttribute('data-theme', cur);
+      localStorage.setItem('theme', cur);
+      updateThemeUI();
+    });
+
+    function updateThemeUI(){
+      const cur = body.getAttribute('data-theme');
+      themeIcon.textContent = cur === 'dark' ? '☀️' : '🌙';
+      themeToggle.setAttribute('aria-pressed', String(cur === 'dark'));
+    }
+
+    // Contact form handler — uses mailto fallback (no backend)
+    function handleContact(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      const status = document.getElementById('formMsg');
+
+      if (!name || !email || !message) {
+        status.textContent = 'Please fill all fields.';
+        return false;
+      }
+
+      // Try opening mail client:
+      const subject = encodeURIComponent(`Portfolio contact from ${name}`);
+      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+      const mailto = `mailto:abhiramthallapelli95@gmail.com?subject=${subject}&body=${body}`;
+      window.location.href = mailto;
+
+      status.textContent = 'Opening your email app… if it does not open, send directly to abhiramthallapelli95@gmail.com';
+      return false;
+    }
+
+    // Accessibility: allow keyboard navigation to theme toggle
+    themeToggle.addEventListener('keyup', (e) => { if (e.key === 'Enter' || e.key === ' ') themeToggle.click(); });
+
+    // small keyboard shortcut to toggle theme: "t"
+    window.addEventListener('keydown', (e) => { if (e.key.toLowerCase() === 't') themeToggle.click(); });
+  </script>
+</body>
+</html>
